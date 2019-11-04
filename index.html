@@ -1,0 +1,86 @@
+<!doctype html>
+
+<head>
+    <meta charset="utf-8">
+ 	<script language="javascript" src="setlist.js"></script>
+    <title>Setlist</title>
+</head>
+<body>
+<form id="GenreForm">
+	Choose a Genre:<br>
+	<select id = "myList">
+		<option>Select</option>
+		<option value = "Rock">Rock</option>
+		<option value = "Country">Country</option>
+		<option value = "Pop">Pop</option>
+		<option value = "Indie">Indie</option>
+		<option value = "Alternative">Alternative</option>
+		<option value = "Musical">Musical</option>
+		<option value = "Singer-Songwriter">Singer-Songwriter</option>
+	</select>
+	<input type="button" value="Choose" onclick="printSong()">
+</form>
+<br>
+<br>
+<br>
+<script language="javascript">
+
+/*********************************************************************************************************************
+Uncomment this for loop to print all of the songs in the JSON file. This was step 1 of the HW and I wasn't sure if
+it was supposed to be displayed in the final product or not. This is part3 of the hw assignment. It can be uncommented
+to be displayed on the page and when the drop down form is used, it is overwritten with only the songs that match the
+specific genre chosen. 
+**********************************************************************************************************************/
+/* for (i in songs) {
+		var s1 = JSON.stringify(songs[i].id);
+		var s2 = JSON.stringify(songs[i].Title);
+		var s3 = JSON.stringify(songs[i].Artist);
+		var s4 = JSON.stringify(songs[i].Genre);
+		var s5 = JSON.stringify(songs[i].Year);
+		var total = "Title: " + s2 + "<br>" + "Artist(s): " + s3 + "<br>" + "Genre(s): " + s4 + "<br>" + "Year: " + s5 + "<br>";
+		document.write(total + "<br>");
+} */
+
+/* Selects the genre if it is chosen in the dropdown menu and inputs the id of any 
+JSON object into an array if the genre is found within the genre array. Returns the array. */
+function chooseGenre() {
+	var genreValue = document.getElementById("myList").value;
+	var counter = 0;
+	var genre_arr = [];
+	for (i in songs) {
+		genreLength = JSON.stringify(songs[i].Genre.length)
+		for (var j = 0; j < genreLength; j++) {
+			curr_genre = (songs[i].Genre[j]);
+			if (curr_genre === genreValue) {
+				songId = JSON.stringify(songs[i].id)
+				genre_arr.push(songId);
+			}
+			counter = counter + 1;
+			if (counter == genreLength) {
+				break;
+			}
+		}
+	}
+	return genre_arr;
+}
+/* Calls the choose genre function and prints the song if the stored id's match. */
+function printSong() {
+	var genre_arr = chooseGenre();
+	for (song_id in genre_arr) {
+		for (songObj in songs) {
+			var id = JSON.stringify(songs[songObj].id);
+			if (id == genre_arr[song_id]) {
+				var s2 = JSON.stringify(songs[songObj].Title);
+				var s3 = JSON.stringify(songs[songObj].Artist);
+				var s4 = JSON.stringify(songs[songObj].Genre);
+				var s5 = JSON.stringify(songs[songObj].Year);
+				var total = "Title: " + s2 + "<br>" + "Artist(s): " + s3 + "<br>" + "Genre(s): " + s4 + "<br>" + "Year: " + s5 + "<br>";
+				document.write(total + "<br>");
+			}
+		}
+	}
+}
+
+</script>
+</body>
+</html>
